@@ -3,6 +3,8 @@ import heapq
 from utils import reduce_matrix, calculate_cost
 from node import Node
 import time
+import os
+import sys
 from scipy.spatial.distance import cdist
 
 # Fungsi utama untuk menyelesaikan TSP dengan Branch and Bound
@@ -88,46 +90,72 @@ def generate_matrix(n, seed=42):
     np.fill_diagonal(matrix, float('inf'))
     return matrix
 
+
 if __name__ == "__main__":
-    n_kota = 10                             # Tentukan jumlah kota untuk eksperimen ini
+    # 1. Daftar jumlah kota yang ingin diuji
+    variasi_n = [5, 10, 15, 20]
     seed_value = 42
 
-    print(f"=== EKSPERIMEN TSP: {n_kota} KOTA (SEED: {seed_value}) ===")
+    # 2. Buat folder utama hasil eksperimen
+    parent_folder = "hasil_eksperimen_skripsi"
+    if not os.path.exists(parent_folder):
+        os.makedirs(parent_folder)
 
-    # Tampilkan Koordinat (Untuk validasi perhitungan manual jika diminta penguji)
-    np.random.seed(seed_value)
-    coords = np.random.randint(1, 101, size=(n_kota, 2))
-    print("\n1. KOORDINAT KOTA (X, Y):")
-    for i, (x, y) in enumerate(coords):
-        print(f"   Kota {i}: ({x}, {y})")
+    print(f"Memulai eksperimen untuk n = {variasi_n}...")
+    print(f"Hasil akan disimpan di folder: {parent_folder}")
 
-    # Siapkan data matriks jarak
-    matrix = generate_matrix(n_kota, seed=seed_value)
+    for n_kota in variasi_n:
+        # Buat sub-folder untuk masing-masing jumlah kota
+        folder_n = os.path.join(parent_folder, f"{n_kota}_kota")
+        if not os.path.exists(folder_n):
+            os.makedirs(folder_n)
 
-    # Cetak matriks jarak (untuk lampiran Bab IV)
-    print("\n2. MATRIKS JARAK ANTAR KOTA (Euclidean):")
-    header = "      " + "".join([f"K{i:<7}" for i in range(n_kota)])
-    print(header)
-    print("-" * len(header))
-    for i in range(n_kota):
-        row_str = f"K{i:<4} | "
-        for j in range(n_kota):
-            val = matrix[i][j]
-            row_str += f"{val:<7.2f} " if val != float('inf') else f"{'inf':<7} "
-        print(row_str)
+        # Nama file log untuk masing-masing n
+        file_log = os.path.join(folder_n, f"report_n{n_kota}.txt")
 
-    print("\n3. PROSES PENCARIAN RUTE TERPENDEK...")
+        # Mengalihkan Output Print ke File
+        with open(file_log, 'w') as f:
+            # Simpan referensi terminal asli
+            original_stdout = sys.stdout
+            sys.stdout = f  # Mulai menulis ke file
 
-    # Jalankan algoritma dan ukur waktunya
-    start_time = time.perf_counter()       # Mulai hitung waktu
-    path, cost, nodes_count = solve_tsp(matrix)
-    end_time = time.perf_counter()         # Selesai hitung waktu
+            # --- MULAI PROSES SEPERTI BIASA ---
+            print(f"=== EKSPERIMEN TSP: {n_kota} KOTA (SEED: {seed_value}) ===")
 
-    duration = end_time - start_time
+            np.random.seed(seed_value)
+            coords = np.random.randint(1, 101, size=(n_kota, 2))
+            print("\n1. KOORDINAT KOTA (X, Y):")
+            for i, (x, y) in enumerate(coords):
+                print(f"   Kota {i}: ({x}, {y})")
 
-    # Tampilkan Hasil Akhir
-    print("\n4. HASIL AKHIR:")
-    print(f"   Rute Terpendek : {path}")
-    print(f"   Total Jarak    : {cost:.2f}")
-    print(f"   Simpul Dieksplorasi : {nodes_count}")
-    print(f"   Waktu Proses   : {duration:.6f} detik")
+            matrix = generate_matrix(n_kota, seed=seed_value)
+
+            print("\n2. MATRIKS JARAK ANTAR KOTA (Euclidean):")
+            header = "      " + "".join([f"K{i:<7}" for i in range(n_kota)])
+            print(header)
+            print("-" * len(header))
+            for i in range(n_kota):
+                row_str = f"K{i:<4} | "
+                for j in range(n_kota):
+                    val = matrix[i][j]
+                    row_str += f"{val:<7.2f} " if val != float('inf') else f"{'inf':<7} "
+                print(row_str)
+
+            print("\n3. PROSES PENCARIAN RUTE TERPENDEK...")
+            start_time = time.perf_counter()
+            path, cost, nodes_count = solve_tsp(matrix)
+            end_time = time.perf_counter()
+            duration = end_time - start_time
+
+            print("\n4. HASIL AKHIR:")
+            print(f"   Rute Terpendek : {path}")
+            print(f"   Total Jarak    : {cost:.2f}")
+            print(f"   Simpul Dieksplorasi : {nodes_count}")
+            print(f"   Waktu Proses   : {duration:.6f} detik")
+
+            # Kembalikan output ke terminal setelah selesai satu iterasi
+            sys.stdout = original_stdout
+
+        print(f" Selesai: {n_kota} kota. Data tersimpan di {file_log}")
+
+    print("\nSeluruh eksperimen selesai.")
