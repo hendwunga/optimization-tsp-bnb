@@ -17,9 +17,10 @@ D    | 31.58   69.63   69.57   inf     14.42
 E    | 29.21   60.07   55.79   14.42   inf     
 
 3. PROSES PENCARIAN RUTE TERPENDEK...
+   [Visualisasi] Pohon dengan legenda berhasil dibuat di: hasil_eksperimen/5_kota/tree_n5_final.png
 
 4. HASIL AKHIR:
    Rute Terpendek : A -> B -> C -> E -> D -> A
    Total Jarak    : 244.58
-   Simpul Dieksplorasi : 26
-   Waktu Proses   : 0.001542 detik
+   Simpul Dieksplorasi : 31
+   Waktu Proses   : 0.003018 detik
