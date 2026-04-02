@@ -4,10 +4,10 @@ import os
 
 # 1. DATA ASLI (Sesuai Permintaan: Presisi Penuh Tanpa Pengurangan)
 n_kota = [5, 10, 15, 20]
-waktu = [0.002535, 0.938527, 9.405895, 136.766872]
+waktu = [0.002815, 0.567258, 6.195577, 138.707353]
 
 # 2. SISTEM FOLDER (Otomatis Membuat Folder Jika Belum Ada)
-output_folder = "hasil_grafik_skripsi"
+output_folder = "hasil_grafik"
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
     print(f"Folder '{output_folder}' telah dibuat.")

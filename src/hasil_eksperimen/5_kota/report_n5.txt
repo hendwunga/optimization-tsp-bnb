@@ -1,0 +1,25 @@
+=== EKSPERIMEN TSP: 5 KOTA (SEED: 42) ===
+
+1. KOORDINAT KOTA (X, Y):
+   Kota 1: (52, 93)
+   Kota 2: (15, 72)
+   Kota 3: (61, 21)
+   Kota 4: (83, 87)
+   Kota 5: (75, 75)
+
+2. MATRIKS JARAK ANTAR KOTA (Euclidean):
+      K1      K2      K3      K4      K5      
+----------------------------------------------
+K1    | inf     42.54   72.56   31.58   29.21   
+K2    | 42.54   inf     68.68   69.63   60.07   
+K3    | 72.56   68.68   inf     69.57   55.79   
+K4    | 31.58   69.63   69.57   inf     14.42   
+K5    | 29.21   60.07   55.79   14.42   inf     
+
+3. PROSES PENCARIAN RUTE TERPENDEK...
+
+4. HASIL AKHIR:
+   Rute Terpendek : [1, 2, 3, 5, 4, 1]
+   Total Jarak    : 244.58
+   Simpul Dieksplorasi : 26
+   Waktu Proses   : 0.002815 detik
