@@ -171,7 +171,8 @@ import os
 import sys
 from scipy.spatial.distance import cdist
 import math
-
+import matplotlib.pyplot as plt
+import networkx as nx
 
 def solve_tsp(adj_matrix):
     nodes_explored = 0
@@ -227,7 +228,6 @@ def solve_tsp(adj_matrix):
 
     return best_path, best_solution, nodes_explored
 
-
 def generate_matrix(n, seed=42):
     np.random.seed(seed)
     coords = np.random.randint(1, 101, size=(n, 2))
@@ -235,6 +235,32 @@ def generate_matrix(n, seed=42):
     np.fill_diagonal(matrix, float('inf'))
     return matrix
 
+def visualize_graph(n, coords, matrix, folder_path):
+    plt.figure(figsize=(10, 8))
+    G = nx.Graph()
+
+    # 1. Tambahkan Node dengan label alfabet (A, B, C...)
+    for i in range(n):
+        label = chr(65 + i) # 65 adalah ASCII untuk 'A'
+        G.add_node(label, pos=(coords[i][0], coords[i][1]))
+
+    pos = nx.get_node_attributes(G, 'pos')
+
+    # 2. Tambahkan Edge
+    for i in range(n):
+        for j in range(i + 1, n):
+            u = chr(65 + i)
+            v = chr(65 + j)
+            G.add_edge(u, v)
+
+    nx.draw_networkx_nodes(G, pos, node_size=700, node_color='skyblue')
+    nx.draw_networkx_labels(G, pos, font_size=12, font_weight='bold')
+    nx.draw_networkx_edges(G, pos, alpha=0.3, edge_color='gray', style='dashed')
+
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plot_file = os.path.join(folder_path, f"graph_connectivity_n{n}.png")
+    plt.savefig(plot_file)
+    plt.close()
 
 if __name__ == "__main__":
     variasi_n = [5, 10, 15, 20]
@@ -260,22 +286,24 @@ if __name__ == "__main__":
             print(f"=== EKSPERIMEN TSP: {n_kota} KOTA (SEED: {seed_value}) ===")
 
             np.random.seed(seed_value)
-            coords = np.random.randint(1, 101, size=(n_kota, 2))
+            coords = np.random.randint(1, 501, size=(n_kota, 2))
 
-            # --- Tampilan Koordinat (Ditambah 1) ---
+            # --- Tampilan Koordinat (Alfabet) ---
             print("\n1. KOORDINAT KOTA (X, Y):")
             for i, (x, y) in enumerate(coords):
-                print(f"   Kota {i + 1}: ({x}, {y})")
+                print(f"   Kota {chr(65 + i)}: ({x}, {y})")
 
             matrix = generate_matrix(n_kota, seed=seed_value)
+            visualize_graph(n_kota, coords, matrix, folder_n)
 
-            # --- Tampilan Header Matriks (Ditambah 1) ---
+            # --- Tampilan Header Matriks (Alfabet) ---
             print("\n2. MATRIKS JARAK ANTAR KOTA (Euclidean):")
-            header = "      " + "".join([f"K{i + 1:<7}" for i in range(n_kota)])
+            header = "      " + "".join([f"{chr(65 + i):<7}" for i in range(n_kota)])
             print(header)
             print("-" * len(header))
             for i in range(n_kota):
-                row_str = f"K{i + 1:<4} | "
+                row_label = chr(65 + i)
+                row_str = f"{row_label:<4} | "
                 for j in range(n_kota):
                     val = matrix[i][j]
                     row_str += f"{val:<7.2f} " if val != float('inf') else f"{'inf':<7} "
@@ -287,11 +315,11 @@ if __name__ == "__main__":
             end_time = time.perf_counter()
             duration = end_time - start_time
 
-            # --- Tampilan Rute (Setiap elemen path ditambah 1) ---
-            readable_path = [city + 1 for city in path]
+            # --- Tampilan Rute (Alfabet) ---
+            readable_path = [chr(65 + city) for city in path]
 
             print("\n4. HASIL AKHIR:")
-            print(f"   Rute Terpendek : {readable_path}")
+            print(f"   Rute Terpendek : {' -> '.join(readable_path)}")
             print(f"   Total Jarak    : {cost:.2f}")
             print(f"   Simpul Dieksplorasi : {nodes_count}")
             print(f"   Waktu Proses   : {duration:.6f} detik")

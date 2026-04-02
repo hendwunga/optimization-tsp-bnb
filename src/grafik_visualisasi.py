@@ -32,8 +32,8 @@ for i, val in enumerate(waktu):
              ha='center', va='bottom', fontsize=9, fontweight='bold', color='#34495e')
 
 # 6. PENGATURAN SUMBU & LABEL
-plt.title('Grafik Analisis Waktu Komputasi Branch and Bound TSP',
-          fontsize=14, fontweight='bold', pad=20)
+# plt.title('Grafik Analisis Waktu Komputasi Branch and Bound TSP',
+#           fontsize=14, fontweight='bold', pad=20)
 plt.xlabel('Jumlah Kota (n)', fontsize=12, fontweight='bold')
 plt.ylabel('Waktu Eksekusi (detik)', fontsize=12, fontweight='bold')
 
