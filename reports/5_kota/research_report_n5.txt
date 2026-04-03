@@ -1,4 +1,6 @@
-=== EKSPERIMEN TSP: 5 KOTA (SEED: 42) ===
+=== LAPORAN PENELITIAN TSP: 5 KOTA ===
+Metode: Branch and Bound (Matrix Reduction)
+Seed  : 42
 
 1. KOORDINAT KOTA (X, Y):
    Kota A: (52.00, 93.00)
@@ -16,10 +18,12 @@ C    | 72.56     68.68     inf       69.57     55.79
 D    | 31.58     69.63     69.57     inf       14.42     
 E    | 29.21     60.07     55.79     14.42     inf       
 
-3. PROSES PENCARIAN RUTE TERPENDEK...
+3. STATISTIK WAKTU KOMPUTASI (5 iterasi):
+   - Waktu Tercepat (Min) : 0.001571 s
+   - Waktu Terlama (Max)  : 0.001808 s
+   - Rata-rata (Average)  : 0.001649 s
 
-4. HASIL AKHIR:
-   Rute Terpendek      : A -> B -> C -> E -> D -> A
-   Total Jarak (Cost)  : 244.58
-   Simpul Dieksplorasi : 31
-   Waktu Eksekusi      : 0.002353 detik
+4. HASIL OPTIMASI RUTE:
+   - Total Jarak (Cost)   : 244.58
+   - Rute Terpendek       : A -> B -> C -> E -> D -> A
+   - Simpul Dieksplorasi  : 31
