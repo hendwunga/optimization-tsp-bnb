@@ -103,8 +103,8 @@ sudo apt install graphviz  # Untuk Linux (Ubuntu/Debian)
 ### 2\. Setup Lingkungan
 
 ```bash
-git clone https://github.com/username/proyek_tsp.git
-cd proyek_tsp
+git clone https://github.com/hendwunga/optimization-tsp-bnb.git
+cd optimization-tsp-bnb
 pip install -r requirements.txt
 ```
 
