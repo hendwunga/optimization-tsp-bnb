@@ -1,5 +1,3 @@
-
-
 # 🚀 Optimization of Traveling Salesman Problem (TSP) using Branch and Bound Algorithm
 
 <p align="center">
@@ -9,148 +7,97 @@
   <img src="https://img.shields.io/badge/Status-Research_Project-success?style=for-the-badge" alt="Status">
 </p>
 
------
-
 ## 📌 Abstract
 
-Proyek ini menyajikan implementasi tingkat lanjut dari algoritma **Branch and Bound (BnB)** dengan teknik **Matrix Reduction** untuk menyelesaikan *Traveling Salesman Problem (TSP)* secara optimal.
+Proyek ini menyajikan implementasi algoritma **Branch and Bound (BnB)** dengan teknik **Matrix Reduction** untuk menyelesaikan *Traveling Salesman Problem (TSP)* secara optimal. Fokus utama riset ini adalah mengukur batas performa komputasi (*Stress Testing*) melalui eksplorasi jumlah kota secara dinamis hingga batas kapasitas memori sistem tercapai.
 
-Tujuan utama dari riset ini adalah mereduksi kompleksitas komputasi dari pendekatan *brute-force* melalui estimasi **Lower Bound** yang ketat dan **State Space Pruning**, dengan tetap menjamin tercapainya solusi global optimal.
-
------
+---
 
 ## 🏛️ Research Background
 
-Traveling Salesman Problem (TSP) diklasifikasikan sebagai masalah **NP-Hard**, dengan kompleksitas komputasi faktorial:
+TSP diklasifikasikan sebagai masalah **NP-Hard**, dengan kompleksitas faktorial $O(n!)$. Penelitian ini menerapkan sinergi teknik utama:
 
-$$O(n!)$$
+* **Cost Matrix Reduction**: Menentukan *Lower Bound* pada setiap simpul melalui reduksi baris dan kolom.
+* **State Space Search**: Eksplorasi rute hierarkis menggunakan struktur data pohon.
+* **Best-First Search**: Menggunakan *Priority Queue* (Min-Heap) untuk memprioritaskan simpul dengan estimasi biaya terendah.
 
-Solusi *brute-force* menjadi tidak layak seiring bertambahnya jumlah kota. Oleh karena itu, penelitian ini menerapkan sinergi teknik utama:
-
-  * **Euclidean Distance Metric**: Perhitungan jarak antar kota berbasis koordinat Cartesius $(x, y)$ untuk akurasi spasial.
-  * **Cost Matrix Reduction**: Untuk menentukan *Lower Bound* pada setiap simpul melalui reduksi baris dan kolom.
-  * **State Space Search**: Menggunakan struktur data pohon untuk eksplorasi rute secara hierarkis.
-  * **Best-First Search**: Optimasi antrean prioritas (Priority Queue) untuk mempercepat penemuan solusi.
-
------
-
-## 🎯 Research Objectives
-
-  * **Efficiency**: Merestriksi ruang pencarian menggunakan teknik *pruning* pada cabang non-potensial.
-  * **Scalability Analysis**: Menganalisis pertumbuhan waktu eksekusi terhadap penambahan jumlah input ($n$).
-  * **Computational Validation**: Mengevaluasi stabilitas algoritma pada lingkungan terkontrol.
-  * **Process Visualization**: Merepresentasikan proses pengambilan keputusan algoritma secara grafis.
-
------
+---
 
 ## 🏗️ Project Architecture
 
-Sistem dirancang dengan pola modular untuk memisahkan logika algoritma dari alat analisis:
+Sistem dirancang modular untuk memisahkan logika algoritma, visualisasi, dan manajemen data:
 
 ```text
 proyek_tsp/
 ├── src/                    # Core Logic
-│   ├── main.py             # Research Entry Point
+│   ├── main.py             # Entry Point (Stress Test Mode)
 │   ├── solver.py           # BnB Algorithm Engine
 │   ├── node.py             # State Space Data Structure
-│   └── utils.py            # Euclidean & Matrix Operations
+│   └── utils.py            # Matrix Reduction & Cost Operations
 ├── visualisasi/            # Analytics Module
-│   ├── visualizer.py       # Graph & Tree Rendering
-│   └── performance.py      # Statistical Charting
-├── reports/                # Research Artifacts
-│   └── [n]_kota/           # Automated Logs & PNG Results
-├── requirements.txt        # Dependency Management
-└── README.md               # Research Documentation
+│   ├── visualizer.py       # Graph & Tree Rendering (Graphviz)
+│   └── performance_analyzer.py # CSV Export & Charting (Seaborn)
+├── reports/                # Research Artifacts (Auto-Generated)
+│   ├── [n]_kota/           # Detailed Logs (.txt) & Plots (.png)
+│   ├── tsp_research_data.csv # Compiled Raw Data
+│   └── performance_chart.png # Execution Time Trend
+└── requirements.txt        # Dependency Management
 ```
 
------
+---
 
 ## 🧪 Experimental Methodology
 
-### 📐 Euclidean Distance Calculation
+### 📈 Dynamic Stress Testing
+Berbeda dengan pengujian statis, sistem ini menggunakan mode **Auto-Increment**:
+1.  Program memulai pengujian dari $n=3$.
+2.  Setiap $n$ diselesaikan dengan protokol **5x Iteration Averaging** untuk validitas waktu.
+3.  Hasil setiap $n$ langsung dicatat ke dalam laporan `.txt` dan `.csv` secara *real-time*.
+4.  Eksperimen berlanjut secara otomatis hingga sistem mencapai limitasi perangkat keras (RAM/CPU).
 
-Matriks biaya dibangun berdasarkan jarak garis lurus antar dua titik di ruang 2D menggunakan rumus:
+### 📐 Euclidean Metric
+Matriks biaya dibangun berdasarkan jarak garis lurus 2D:
 $$d(i, j) = \sqrt{(x_j - x_i)^2 + (y_j - y_i)^2}$$
-Metode ini menjamin konsistensi jarak dalam simulasi koordinat kota yang bersifat simetris.
 
-### ⏱️ Precision Time Measurement
-
-Untuk menjamin validitas data dalam **Bab IV Skripsi**, pengukuran dilakukan dengan:
-
-  * **Function**: `time.perf_counter()` (Resolusi tinggi).
-  * **Protocol**: **5x Iteration Averaging**.
-  * **Goal**: Mengeliminasi *system noise* dan fluktuasi beban CPU pada OS Linux.
-
-### 🌳 State Space Analysis
-
-Visualisasi pohon keputusan dihasilkan otomatis untuk $n \le 5$. Analisis fokus pada:
-
-  * Mekanisme *Branching* (pembentukan anak simpul).
-  * Keputusan *Pruning* (pemangkasan cabang berdasarkan *cost*).
-
------
+---
 
 ## ⚙️ Installation & Setup
 
-### 1\. Prasyarat Sistem
-
-Pastikan **Graphviz** terinstal di sistem Anda untuk rendering pohon:
-
+### 1. Prasyarat Sistem (Graphviz)
+Untuk merender *State Space Tree*, pastikan Graphviz terinstal:
 ```bash
-sudo apt install graphviz  # Untuk Linux (Ubuntu/Debian)
+sudo apt install graphviz  # Linux
+brew install graphviz      # macOS
 ```
 
-### 2\. Setup Lingkungan
-
+### 2. Eksekusi
 ```bash
+# Clone & Install
 git clone https://github.com/hendwunga/optimization-tsp-bnb.git
 cd optimization-tsp-bnb
 pip install -r requirements.txt
-```
 
-### 3\. Eksekusi Riset
-
-Jalankan skrip utama untuk memulai seluruh variasi eksperimen:
-
-```bash
+# Start Stress Test
 python3 src/main.py
 ```
 
------
+---
 
 ## 📊 Results & Visualization
 
-Eksperimen dilakukan pada variasi jumlah kota: **$n = [5, 10, 15, 20]$**.
+Program menghasilkan tiga output utama untuk analisis Bab IV Skripsi:
+1.  **Laporan Detail (.txt)**: Berisi koordinat kota, matriks jarak awal, dan statistik eksplorasi simpul.
+2.  **Performance Chart**: Grafik garis minimalis yang menunjukkan tren kenaikan waktu eksekusi terhadap jumlah kota.
+3.  **Optimal Cost Trend**: Grafik yang menunjukkan stabilitas pencarian solusi optimal.
 
-Proyek ini secara otomatis menghasilkan:
 
-1.  **City Connectivity Graph**: Visualisasi spasial koordinat kota berdasarkan metrik Euclidean.
-2.  **State Space Tree**: Logika pemangkasan pada setiap level *node*.
-3.  **Execution Performance Chart**: Kurva pertumbuhan waktu komputasi (Average Time).
 
------
+---
 
-## 📚 References
-
-  * **Little, J. D. et al. (1963)** - *An Algorithm for the Traveling Salesman Problem*. Operations Research.
-  * **Cormen, T. H.** - *Introduction to Algorithms*. MIT Press.
-  * **Universitas Sanata Dharma** - *Modul Kuliah Strategi Algoritma*.
-
------
-
-## 👤 Author & Researcher
-
+## 👤 Author
 **Hendrikus Yohanes Wunga**
-Informatics Student
-**Universitas Sanata Dharma, Yogyakarta**
-*Specialization: Backend Development & Computer Networking*
+Informatics Student - Universitas Sanata Dharma, Yogyakarta
+*Aspiring Backend Developer | Java Specialist*
 
------
-
-## 📜 Academic License
-
-Proyek ini dikembangkan secara eksklusif untuk **kepentingan akademik dan penelitian**. Penggunaan ulang kode harus mencantumkan atribusi kepada penulis asli.
-
------
-
+---
 > “Good algorithms are not just fast — they are scalable.”
