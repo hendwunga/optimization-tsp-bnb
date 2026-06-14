@@ -1,0 +1,60 @@
+===================================================================
+===               TSP DATA REPORT: 3  CITIES               ===
+===================================================================
+
+Jumlah Seed Pengujian : 3 [42, 10, 99]
+Iterasi per Seed      : 3 kali
+
+[A] DATA TITIK KOORDINAT KOTA (X, Y) PER SEED:
+
+---> KOORDINAT SEED 42:
+    Kota A: (52.0000, 93.0000)
+    Kota B: (15.0000, 72.0000)
+    Kota C: (61.0000, 21.0000)
+
+---> KOORDINAT SEED 10:
+    Kota A: (10.0000, 16.0000)
+    Kota B: (65.0000, 29.0000)
+    Kota C: (90.0000, 94.0000)
+
+---> KOORDINAT SEED 99:
+    Kota A: (2.0000, 36.0000)
+    Kota B: (58.0000, 41.0000)
+    Kota C: (74.0000, 83.0000)
+
+[B] MATRIKS KETETANGGAAN (DISTANCE MATRIX) PER SEED:
+
+---> MATRIKS KETETANGGAAN SEED 42:
+       A           B           C           
+-------------------------------------------
+A    | inf         42.5441     72.5603     
+B    | 42.5441     inf         68.6804     
+C    | 72.5603     68.6804     inf         
+
+---> MATRIKS KETETANGGAAN SEED 10:
+       A           B           C           
+-------------------------------------------
+A    | inf         56.5155     111.7318    
+B    | 56.5155     inf         69.6419     
+C    | 111.7318    69.6419     inf         
+
+---> MATRIKS KETETANGGAAN SEED 99:
+       A           B           C           
+-------------------------------------------
+A    | inf         56.2228     85.9826     
+B    | 56.2228     inf         44.9444     
+C    | 85.9826     44.9444     inf         
+
+[C] METRIK PERFORMA INDIVIDU TIAP SEED:
+-------------------------------------------------------------------
+Seed       | Waktu Komputasi    | Jarak Optimal   | Simpul
+-------------------------------------------------------------------
+42         | 0.000209       detik | 226.33          | 5
+10         | 0.000173       detik | 294.40          | 5
+99         | 0.000190       detik | 243.37          | 5
+-------------------------------------------------------------------
+
+[D] RATA-RATA METRIK PERFORMA AKHIR GLOBAL (BAB IV DATA):
+    - Waktu Komputasi Rata-rata (Avg) : 0.000190 detik
+    - Jarak Optimal Rata-rata (Avg)   : 254.70
+    - Simpul Dieksplorasi Rata-rata   : 5.0
